@@ -54,10 +54,11 @@ if uploaded_file is not None:
         )
 
         # Set up the Retrieval QA chain
-        qa_chain = RetrievalQA.from_chain_type(
+                qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",
-            retriever=vectordb.as_retriever()
+            retriever=vectordb.as_retriever(search_kwargs={"k": 3}),
+            return_source_documents=True
         )
 
         st.session_state['qa_chain'] = qa_chain
