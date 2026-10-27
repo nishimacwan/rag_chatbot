@@ -54,7 +54,7 @@ if uploaded_file is not None:
         )
 
         # Set up the Retrieval QA chain
-                qa_chain = RetrievalQA.from_chain_type(
+        qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",
             retriever=vectordb.as_retriever(search_kwargs={"k": 3}),
@@ -73,4 +73,9 @@ if uploaded_file is not None:
     if query:
         with st.spinner("Generating response..."):
             response = st.session_state['qa_chain'].invoke({"query": query})
-            st.write(response['result'])
+                        st.write(response['result'])
+
+            st.markdown("**Sources:**")
+            for i, doc in enumerate(response['source_documents'], start=1):
+                page = doc.metadata.get('page', 0) + 1
+                st.markdown(f"{i}. Page {page}: _{doc.page_content[:200]}..._")
