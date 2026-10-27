@@ -73,7 +73,7 @@ if uploaded_file is not None:
     if query:
         with st.spinner("Generating response..."):
             response = st.session_state['qa_chain'].invoke({"query": query})
-                        st.write(response['result'])
+            st.write(response['result'])
 
             st.markdown("**Sources:**")
             for i, doc in enumerate(response['source_documents'], start=1):
